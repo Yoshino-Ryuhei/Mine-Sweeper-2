@@ -26,7 +26,7 @@ export class Field {
   public setBom = (x: number, y: number) => {
     let bombx: number;
     let bomby: number;
-    for (let n = 0; n <= this.numOfBom; n++) {
+    for (let n = 0; n < this.numOfBom; n++) {
       while (true) {
         bombx = getRandomInt(0, this.width);
         bomby = getRandomInt(0, this.height);
@@ -35,7 +35,9 @@ export class Field {
           (y - 1 <= bomby && bomby <= y + 1)
         ) {
           continue;
-        } else {
+        } else if(this.field[bomby][bombx].isBom === true){
+          continue;
+        } else{
           break;
         }
       }

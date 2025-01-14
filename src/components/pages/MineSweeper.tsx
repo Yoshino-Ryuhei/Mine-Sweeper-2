@@ -15,7 +15,7 @@ export const MineSweeper: FC = memo(() => {
   const [isClear, setIsClear] = useState<boolean>(false);
 
   // タイマー用
-  const [istimer, isSetTimer] = useState<boolean>(false);
+  const [istimer, setIsTimer] = useState<boolean>(false);
 
   // 右クリックのメニュー非表示
   useEffect(() => {
@@ -24,7 +24,7 @@ export const MineSweeper: FC = memo(() => {
     };
   }, []);
 
-  const setField = (): void => {
+  const setField = (game:Game): void => {
     let array: Array<Array<Cell>> = [];
     game.field.field.forEach((y) => {
       array.push([...y]);
@@ -35,7 +35,7 @@ export const MineSweeper: FC = memo(() => {
   const onClickCell = (x: number, y: number): void => {
     if (isFirstClick) {
       isFirstClick = false;
-      isSetTimer(true);
+      setIsTimer(true);
       game.field.setBom(x, y);
     }
     if (game.field.field[y][x].isFlag) {
@@ -44,14 +44,14 @@ export const MineSweeper: FC = memo(() => {
     if (game.field.field[y][x].isBom) {
       alert('bomb!');
       game.field.field[y][x].isOpen = true;
-      isSetTimer(false);
+      setIsTimer(false);
     }
-    game.isonClickmainGame(x, y);
+    game.mainGame(x, y);
     if (game.field.isAllOpen() && istimer === true) {
-      isSetTimer(false);
+      setIsTimer(false);
       setIsClear(true);
     }
-    setField();
+    setField(game);
   };
 
   const onContextMenuCell = (x: number, y: number): void => {
@@ -59,32 +59,32 @@ export const MineSweeper: FC = memo(() => {
       return;
     }
     game.field.putFlag(x, y);
-    setField();
+    setField(game);
   };
 
   const onClickReset = () => {
     isFirstClick = true;
     game.resetGame();
-    isSetTimer(false);
+    setIsTimer(false);
     setIsClear(false);
-    setField();
+    setField(game);
   };
 
   const onClickLevel1 = () => {
     game = new Game(9, 9, 10);
-    setField();
+    setField(game);
     onClickReset();
   };
 
   const onClickLevel2 = () => {
     game = new Game(16, 16, 40);
-    setField();
+    setField(game);
     onClickReset();
   };
 
   const onClickLevel3 = () => {
     game = new Game(30, 19, 99);
-    setField();
+    setField(game);
     onClickReset();
   };
 

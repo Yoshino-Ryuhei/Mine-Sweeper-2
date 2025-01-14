@@ -13,7 +13,7 @@ export class Game {
     this.field = new Field(width, height, numOfBom);
   }
 
-  public isonClickmainGame = (x: number, y: number) => {
+  public mainGame = (x: number, y: number) => {
     if (this.field.field[y][x].isFlag || this.field.field[y][x].isBom) {
       return;
     }
